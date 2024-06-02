@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+#workflow
+workflow.svg
+
 # production
 /build
 
