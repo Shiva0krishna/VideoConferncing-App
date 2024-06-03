@@ -35,4 +35,10 @@ io.on("connection", (socket) => {
     console.log("peer:nego:done", ans);
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
+
+    socket.on("peer:stream:off", ({ to }) => {
+    console.log(`Stream off notification from ${socket.id} to ${to}`);
+    io.to(to).emit("peer:stream:off");
+  });
+  
 });
