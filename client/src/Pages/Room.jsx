@@ -2,6 +2,7 @@ import React, { useEffect, useCallback, useState,useMemo } from "react";
 import ReactPlayer from "react-player";
 import peer from "../service/peer";
 import { useSocket } from "../context/SocketProvider";
+import Messaging from "./Messaging";
 
 const RoomPage = () => {
   const socket = useSocket();
@@ -146,8 +147,9 @@ const RoomPage = () => {
             />
           </>
         )}
-        <span>
-          <div style={{height:"450px"}}>Chat Here</div>
+        <span style={{float:"right"}}>
+        <div style={{height:"450px"}}>
+        <Messaging/></div>
         {myStream && (
           <>
             <ReactPlayer
