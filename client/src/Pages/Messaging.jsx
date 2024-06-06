@@ -44,8 +44,7 @@ export default function Messaging() {
                     placeholder="Message"
                     style={{ padding: "9px 18px", marginTop: "10px", fontSize: "19px", border: "0px" }}
                 />
-                <button type="button" className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Dark</button>
-
+                <button  class="text-gray-900  focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700  ">Light</button>
             </form>
         </div>
     );
