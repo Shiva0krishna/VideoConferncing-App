@@ -9,6 +9,7 @@ const RoomPage = () => {
   const [remoteSocketId, setRemoteSocketId] = useState(null);
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
+ 
 
   const constrains = useMemo(() => ({
     audio: true,
@@ -123,19 +124,27 @@ const RoomPage = () => {
   }, [socket, handleUserJoined, handleIncommingCall, handleCallAccepted, handleNegoNeedIncomming, handleNegoNeedFinal, handleRemoteStreamOff]);
 
   return (
-    <div  style={{fontFamily:"sans-serif"}}>
-      <span style={{display:"flex",padding:"0px 10px",justifyContent:"space-between",flexDirection:"row",background:"dodgerblue"}}>
-        <div style={{justifyContent:"flex-start"}}>
-        <h1 style={{display:"inline-block",marginRight:"15px"}}>Room Page   </h1>
-        <h4 style={{fontSize:"24px",display:"inline-block"}}>{remoteSocketId ? "Connected" : "No one in room"}</h4>
+    <div  style={{fontFamily:"sans-serif",backgroundColor:"rgb(255 255 255)"}}>
+
+      <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
+        <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+          <div class="flex items-center space-x-3 rtl:space-x-reverse">
+              <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Room</span>
+              <span class="inline-flex items-center bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full dark:bg-green-900 dark:text-green-300">
+                      <span class="w-2 h-2 me-1 bg-green-500 rounded-full"></span>
+                      Connected
+                  </span>
+          </div>
+        
+          <div class="flex md:order-3 gap-5 space-x-3 md:space-x-0 rtl:space-x-reverse">
+            {myStream && <button onClick={sendStreams} class="text-white bg-blue-700  hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Send Streams</button>}
+            {remoteSocketId && <button onClick={handleCallUser} class="text-white bg-blue-700 mx-4 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Call</button>}
+            <button onClick={handlestreamoff} class="text-white bg-blue-700 hover:bg-blue-800  focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Turn the stream off</button>
+          </div>
         </div>
-        <div style={{justifyContent:"right"}}>
-        {myStream && <button style={{padding:"0px 18px",height:"45px",marginTop:"15px",fontSize:"19px",border:"0px"}} onClick={sendStreams}>Send Stream</button>}
-        {remoteSocketId && <button style={{padding:"0px 18px",marginLeft:"15px",height:"45px",marginTop:"15px",fontSize:"19px",border:"0px"}} onClick={handleCallUser}>CALL</button>}
-        <button style={{padding:"0px 18px",height:"45px",marginLeft:"15px",marginTop:"10px",fontSize:"19px",border:"0px"}} onClick={handlestreamoff}>Turn the stream off</button>
-        </div>
-      </span>
-      <span style={{display:"flex",flexDirection:"row"}}>
+      </nav>
+
+      <span style={{display:"flex",flexDirection:"row",marginTop:"4.9%",borderRadius:"5%"}}>
         {remoteStream && (
           <>
             <ReactPlayer
@@ -148,8 +157,8 @@ const RoomPage = () => {
           </>
         )}
         <span style={{float:"right"}}>
-        <div style={{height:"450px"}}>
-        <Messaging/></div>
+        <div  class="fixed top-20 right-15 z-40 ">
+        <Messaging/>
         {myStream && (
           <>
             <ReactPlayer
@@ -161,6 +170,7 @@ const RoomPage = () => {
             />
           </>
         )}
+        </div>
         </span>
       </span>
     </div>

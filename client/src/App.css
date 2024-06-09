@@ -1,11 +1,13 @@
 .chat-box {
-    border: 1px solid #ccc;
+    border: 1.5px solid #ccc;
+    border-radius:5px;
     padding: 10px;
-    height: 300px;
+    height: 440px;
     overflow-y: scroll;
     margin-bottom: 10px;
-    scrollbar-width:thin;
+    scrollbar-width:none;
     scroll-behavior: smooth;
+    background-image:url("D:/Projects/Conferencing/client/public/chat.jpeg");
 }
 
 .chat-message {
@@ -13,11 +15,19 @@
 }
 
 .chat-message.local {
-    text-align: right;
-    color: blue;
+    color:black;
+    background-color: rgb(96, 200, 96);
+    max-width:max-content;
+    padding:7px;
+    border:0.1px solid grey;
+    border-radius:10px;
 }
 
 .chat-message.remote {
     text-align: left;
-    color: green;
+    color: black;
+    border-radius:10px;
+    max-width: fit-content;
+    background-color: rgb(59, 149, 222);
+    padding:7px;
 }

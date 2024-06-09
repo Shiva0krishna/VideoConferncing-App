@@ -4,6 +4,7 @@ import '../App.css'
 export default function Messaging() {
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
+    const [date,setdate] =useState(new Date());
 
     useEffect(() => {
         peer.listenChannel();
@@ -14,6 +15,9 @@ export default function Messaging() {
             };
         };
     }, []);
+    useEffect(()=>{
+        setdate(new Date());
+    },[])
 
     const handleSendDataStream = useCallback((e) => {
         e.preventDefault();
@@ -26,25 +30,28 @@ export default function Messaging() {
 
     return (
         <div>
-            <h1>WebRTC Messaging</h1>
+            <h1 style={{fontFamily:"sans-serif",fontWeight:"500"}}>Chat </h1>
             <div className="chat-box">
+                <div style={{height:"87%",borderBottomColor:"2px dodgerblue"}}>
+                <h4  style={{color:"whitesmoke",textAlign:"center"}}>{date.toDateString()}</h4>
                 {messages.map((msg, index) => (
                     <div key={index} className={`chat-message ${msg.sender}`}>
-                        <span>{msg.sender === 'local' ? 'You' : 'Opponent'}: {msg.text}</span>
+                        <span>{msg.sender === 'local' ? 'You ' : ' !You '}: {msg.text}</span><br/>
                     </div>
                 ))}
-            </div>
-            <form onSubmit={handleSendDataStream}>
-                <label htmlFor='data'>Chat</label>
+                </div>
+                </div>
+                <form style={{backgroundColor:"smokewhite"}}  onSubmit={handleSendDataStream}>
                 <input
                     id="data"
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
                     type="text"
                     placeholder="Message"
-                    style={{ padding: "9px 18px", marginTop: "10px", fontSize: "19px", border: "0px" }}
+                    class="bg-[#222630] px-4 py-3 mr-5 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]"
+                    style={{ padding: "9px 18px", fontSize: "19px" }}
                 />
-                <button  class="text-gray-900  focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700  ">Light</button>
+                <button  class="text-gray-900   focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700  ">Send </button>
             </form>
         </div>
     );
