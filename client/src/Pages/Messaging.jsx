@@ -30,13 +30,13 @@ export default function Messaging() {
 
     return (
         <div>
-            <h1 style={{fontFamily:"sans-serif",fontWeight:"500"}}>Chat </h1>
+            <h1 style={{fontFamily:"sans-serif",fontSize:"22px",color:"dodgerblue",fontWeight:"500"}}>Chat </h1>
             <div className="chat-box">
                 <div style={{height:"87%",borderBottomColor:"2px dodgerblue"}}>
-                <h4  style={{color:"whitesmoke",textAlign:"center"}}>{date.toDateString()}</h4>
+                <h4  style={{color:"black",textAlign:"center"}}>{date.toDateString()}</h4>
                 {messages.map((msg, index) => (
                     <div key={index} className={`chat-message ${msg.sender}`}>
-                        <span>{msg.sender === 'local' ? 'You ' : ' !You '}: {msg.text}</span><br/>
+                        <span>{msg.sender === 'local' ? 'You ' : ' Opponent '}: {msg.text}</span><br/>
                     </div>
                 ))}
                 </div>

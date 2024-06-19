@@ -6,8 +6,7 @@
     overflow-y: scroll;
     margin-bottom: 10px;
     scrollbar-width:none;
-    scroll-behavior: smooth;
-    background-image:url("D:/Projects/Conferencing/client/public/chat.jpeg");
+    scroll-behavior: smooth
 }
 
 .chat-message {

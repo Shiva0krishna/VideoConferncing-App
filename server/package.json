@@ -9,6 +9,9 @@
   "author": "Shiva sangati",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "http": "^0.0.1-security",
     "nodemon": "^3.1.1",
     "socket.io": "^4.7.5"
   }

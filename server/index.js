@@ -1,7 +1,24 @@
 const { Server } = require("socket.io");
+const cors = require("cors");
+const express = require("express");
+const http = require("http");
 
-const io = new Server(8000, {
-  cors: true,
+const app = express();
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
+    origin: 'https://conferencing-6cz1b60r7-shiva-sangatis-projects.vercel.app/', 
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+  },
+  transports: ['websocket'] 
+});
+
+app.use(cors());
+app.get('/', (req, res) => {
+  res.send('Server is up and running');
 });
 
 const emailToSocketIdMap = new Map();
@@ -13,7 +30,7 @@ io.on("connection", (socket) => {
     const { email, room } = data;
     emailToSocketIdMap.set(email, socket.id);
     socketidToEmailMap.set(socket.id, email);
-    io.to(room).emit("user:joined", { email, id: socket.id,room });
+    io.to(room).emit("user:joined", { email, id: socket.id, room });
     socket.join(room);
     io.to(socket.id).emit("room:join", data);
   });
@@ -34,9 +51,13 @@ io.on("connection", (socket) => {
     io.to(to).emit("peer:nego:final", { from: socket.id, ans });
   });
 
-    socket.on("peer:stream:off", ({ to }) => {
+  socket.on("peer:stream:off", ({ to }) => {
     console.log(`Stream off notification from ${socket.id} to ${to}`);
     io.to(to).emit("peer:stream:off");
   });
-  
+});
+
+const PORT = process.env.PORT || 8000;
+server.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
