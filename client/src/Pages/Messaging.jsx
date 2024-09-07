@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import peer from '../service/peer';
-import '../App.css'; // Import the CSS file
+import '../App.css';
 
 export default function Messaging() {
     const [msg, setMsg] = useState('');
