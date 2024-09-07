@@ -1,0 +1,22 @@
+services:
+  - type: web  # Defines a web service
+    name: backend-service
+    env: node  # Can be 'node', 'python', 'docker', etc. based on your backend
+    buildCommand: cd server && npm install  # Only install dependencies in the backend folder
+    startCommand: cd server && npm start    # Start the backend from the backend folder
+    autoDeploy: true                         # Auto deploy on each push to the repo
+    region: oregon                           # Region for deployment
+    plan: free                               # Set the pricing plan, free/paid
+
+    # Define paths to include/exclude
+    includedFiles:
+      - server/**
+    ignoredFiles:
+      - client/**     # Ignore the frontend folder entirely
+
+    envVars:
+      - key: NODE_ENV   # Define environment variables for the backend
+        value: production
+      - key: API_KEY
+        sync: false     # Ensure secrets like API keys are not stored in the repo
+
