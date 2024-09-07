@@ -3,7 +3,7 @@ services:
     name: backend-service
     env: node  # Can be 'node', 'python', 'docker', etc. based on your backend
     buildCommand: cd server && npm install  # Only install dependencies in the backend folder
-    startCommand: cd server && npm start    # Start the backend from the backend folder
+    startCommand: cd server && nodemon index.js    # Start the backend from the backend folder
     autoDeploy: true                         # Auto deploy on each push to the repo
     region: oregon                           # Region for deployment
     plan: free                               # Set the pricing plan, free/paid
