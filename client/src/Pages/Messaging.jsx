@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import peer from '../service/peer';
-import '../App.css'
+import '../App.css'; // Import the CSS file
+
 export default function Messaging() {
     const [msg, setMsg] = useState('');
     const [messages, setMessages] = useState([]);
-    const [date,setdate] =useState(new Date());
+    const [date, setDate] = useState(new Date());
 
     useEffect(() => {
         peer.listenChannel();
@@ -15,9 +16,10 @@ export default function Messaging() {
             };
         };
     }, []);
-    useEffect(()=>{
-        setdate(new Date());
-    },[])
+
+    useEffect(() => {
+        setDate(new Date());
+    }, []);
 
     const handleSendDataStream = useCallback((e) => {
         e.preventDefault();
@@ -29,29 +31,28 @@ export default function Messaging() {
     }, [msg]);
 
     return (
-        <div>
-            <h1 style={{fontFamily:"sans-serif",fontSize:"22px",color:"dodgerblue",fontWeight:"500"}}>Chat </h1>
+        <div className="messaging-container">
+            <h1 className="chat-title">Chat</h1>
             <div className="chat-box">
-                <div style={{height:"87%",borderBottomColor:"2px dodgerblue"}}>
-                <h4  style={{color:"black",textAlign:"center"}}>{date.toDateString()}</h4>
-                {messages.map((msg, index) => (
-                    <div key={index} className={`chat-message ${msg.sender}`}>
-                        <span>{msg.sender === 'local' ? 'You ' : ' Opponent '}: {msg.text}</span><br/>
-                    </div>
-                ))}
+                <div className="message-container">
+                    <h4 className="chat-date">{date.toDateString()}</h4>
+                    {messages.map((msg, index) => (
+                        <div key={index} className={`chat-message ${msg.sender === 'local' ? 'local-message' : 'remote-message'}`}>
+                            <span>{msg.sender === 'local' ? 'You' : 'Opponent'}: {msg.text}</span>
+                        </div>
+                    ))}
                 </div>
-                </div>
-                <form style={{backgroundColor:"smokewhite"}}  onSubmit={handleSendDataStream}>
+            </div>
+            <form className="chat-form" onSubmit={handleSendDataStream}>
                 <input
                     id="data"
                     value={msg}
                     onChange={(e) => setMsg(e.target.value)}
                     type="text"
-                    placeholder="Message"
-                    class="bg-[#222630] px-4 py-3 mr-5 outline-none w-[280px] text-white rounded-lg border-2 transition-colors duration-100 border-solid focus:border-[#596A95] border-[#2B3040]"
-                    style={{ padding: "9px 18px", fontSize: "19px" }}
+                    placeholder="Type a message..."
+                    className="chat-input"
                 />
-                <button  class="text-gray-900   focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700  ">Send </button>
+                <button type="submit" className="send-button">Send</button>
             </form>
         </div>
     );
