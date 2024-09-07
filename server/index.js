@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://conferencing-6cz1b60r7-shiva-sangatis-projects.vercel.app/', 
+    origin: 'https://conferencing-virid.vercel.app/', 
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true
