@@ -10,7 +10,6 @@ export const useSocket = () => {
 
 export default function SocketProvider(props) {
   const socket = useMemo(() => io('https://videoconferncing-app.onrender.com', {
-    //https://videoconferncing-app.onrender.com
     path: '/socket.io', 
     transports: ['websocket'],
     secure: true
