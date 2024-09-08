@@ -8,7 +8,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: 'https://conferencing-virid.vercel.app/', 
+    origin: 'https://video-conferncing-app.vercel.app/', 
     methods: ['GET', 'POST'],
     allowedHeaders: ['Content-Type'],
     credentials: true
@@ -55,7 +55,34 @@ io.on("connection", (socket) => {
     console.log(`Stream off notification from ${socket.id} to ${to}`);
     io.to(to).emit("peer:stream:off");
   });
+
+  socket.on("user:leave", ({ to }) => {
+    console.log(`User ${socket.id} is leaving the room`);
+    const email = socketidToEmailMap.get(socket.id);
+
+    if (email) {
+      emailToSocketIdMap.delete(email);
+      socketidToEmailMap.delete(socket.id);
+    }
+
+    io.to(to).emit("user:left", { email, id: socket.id });
+
+    socket.leave(to);
+  });
+  socket.on("disconnect", () => {
+    const email = socketidToEmailMap.get(socket.id);
+    if (email) {
+      emailToSocketIdMap.delete(email);
+      socketidToEmailMap.delete(socket.id);
+    }
+    console.log(`Socket Disconnected`, socket.id);
+  });
+
+  socket.emit("user:leave",)
+
+
 });
+
 
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
