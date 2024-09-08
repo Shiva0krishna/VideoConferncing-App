@@ -9,9 +9,9 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <SocketProvider>
-       <App />
-    </SocketProvider>
+      <SocketProvider>
+          <App />
+      </SocketProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

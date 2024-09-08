@@ -4,11 +4,11 @@ import Room from "./Pages/Room";
 import NotFound from "./Pages/NotFound";
 function App() {
   return (
-    <Routes>
+        <Routes>
       <Route path="/" element={<Lobby/>}></Route>
-      <Route path="/room/:roomId" element={<Room/>}></Route>
+      <Route path="/room:roomId" element={<Room/>}></Route>
       <Route path="/*" element={<NotFound/>}></Route>
-    </Routes>
+        </Routes>
   );
 }
 
