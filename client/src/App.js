@@ -6,7 +6,7 @@ function App() {
   return (
         <Routes>
       <Route path="/" element={<Lobby/>}></Route>
-      <Route path="/room/roomId" element={<Room/>}></Route>
+      <Route path="/room/:roomId" element={<Room/>}></Route>
       <Route path="/*" element={<NotFound/>}></Route>
         </Routes>
   );
