@@ -85,6 +85,7 @@
 .chat-form {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
     background-color: #1e1e1e;
     border-radius: 10px;
     padding: 10px;
