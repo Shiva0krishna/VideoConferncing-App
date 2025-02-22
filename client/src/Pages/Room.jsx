@@ -12,6 +12,10 @@ const RoomPage = () => {
   const [myStream, setMyStream] = useState();
   const [remoteStream, setRemoteStream] = useState();
   const navigate = useNavigate();
+  const [mediaRecorder, setMediaRecorder] = useState(null);
+  const [recordedChunks, setRecordedChunks] = useState([]);
+  const [isRecording, setIsRecording] = useState(false);
+
 
   const constrains = useMemo(() => ({
     audio: true,
@@ -147,6 +151,51 @@ const RoomPage = () => {
     window.location.reload();
   }, [navigate, stopMediaStream]);
 
+  const startRecording = useCallback(() => {
+    if (myStream && remoteStream) {
+      const combinedStream = new MediaStream([
+        ...myStream.getTracks(),
+        ...remoteStream.getTracks(),
+      ]);
+  
+      const recorder = new MediaRecorder(combinedStream);
+      recorder.ondataavailable = (event) => {
+        if (event.data.size > 0) {
+          setRecordedChunks((prev) => [...prev, event.data]);
+        }
+      };
+      recorder.onstop = () => {
+        const blob = new Blob(recordedChunks, { type: "video/webm" });
+        const url = URL.createObjectURL(blob);
+  
+        
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = "recording.webm";
+        downloadLink.click();
+  
+        setRecordedChunks([]);
+      };
+  
+      recorder.start();
+      setMediaRecorder(recorder);
+      setIsRecording(true);
+      console.log("Recording started");
+    } else {
+      console.error("Streams are not available for recording");
+    }
+  }, [myStream, remoteStream, recordedChunks]);
+
+  const stopRecording = useCallback(() => {
+    if (mediaRecorder) {
+      mediaRecorder.stop();
+      setIsRecording(false);
+      console.log("Recording stopped");
+    }
+  }, [mediaRecorder]);
+
+
+
 
   useEffect(() => {
     socket.on("user:joined", handleUserJoined);
@@ -165,7 +214,7 @@ const RoomPage = () => {
       socket.off("peer:nego:final", handleNegoNeedFinal);
       socket.off("peer:stream:off", handleRemoteStreamOff);
       socket.off("user:left",handleUserLeft);
-      
+
     };
   }, [socket, handleUserJoined, handleIncommingCall, handleCallAccepted, handleNegoNeedIncomming, handleNegoNeedFinal, handleRemoteStreamOff, handleUserLeft]);
 
@@ -181,11 +230,23 @@ const RoomPage = () => {
             </span>
           </div>
           <div className="flex gap-5">
-            <button
-                className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700"
+
+            {isRecording ? (
+              <button
+                onClick={stopRecording}
+                className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-red-600 dark:hover:bg-red-700"
               >
-                Record
+                Stop Recording
               </button>
+            ) : (
+              <button
+                onClick={startRecording}
+                className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-green-600 dark:hover:bg-green-700"
+              >
+                Start Recording
+              </button>
+            )}
+
             {myStream && <button onClick={sendStreams} className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700">Send Streams</button>}
             {remoteSocketId ? (
               <button
